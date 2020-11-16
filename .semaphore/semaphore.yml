@@ -1,0 +1,32 @@
+version: v1.0
+name: Build
+
+agent:
+  machine:
+    type: e1-standard-2
+  containers:
+    - name: node
+      image: countingup/node:12
+  image_pull_secrets:
+    - name: countingup-dockerhub
+
+execution_time_limit:
+  minutes: 25
+
+global_job_config:
+  secrets:
+    - name: countingup-dockerhub
+  prologue:
+    commands:
+      - checkout
+
+blocks:
+  - name: Build
+    task:
+      jobs:
+        - name: Version
+          commands:
+            - node --version
+        - name: Hello
+          commands:
+            - echo 'console.log("Hello World");' | node
