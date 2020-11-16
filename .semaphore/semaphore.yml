@@ -4,11 +4,7 @@ name: Build
 agent:
   machine:
     type: e1-standard-2
-  containers:
-    - name: node
-      image: countingup/node:12
-  image_pull_secrets:
-    - name: countingup-dockerhub
+    os_image: ubuntu1804
 
 execution_time_limit:
   minutes: 25
@@ -24,9 +20,9 @@ blocks:
   - name: Build
     task:
       jobs:
-        - name: Version
+        - name: Login
           commands:
-            - node --version
-        - name: Hello
+            - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+        - name: Pull
           commands:
-            - echo 'console.log("Hello World");' | node
+            - docker pull countingup/node:12
