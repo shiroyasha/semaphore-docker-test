@@ -22,7 +22,7 @@ blocks:
       jobs:
         - name: Login
           commands:
-            - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
         - name: Pull
           commands:
             - docker pull countingup/node:12
